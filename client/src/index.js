@@ -4,9 +4,38 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+//setup app for using redux
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension'; 
+
+//create user reducer function
+const authReducer = (state = {}, action ) => {
+  switch(action.type){
+    case "LOGGED_IN_USER":
+      return {...state, ...action.payload}
+    case 'LOGOUT':
+      return action.payload;
+    default:
+      return state; 
+  }
+};
+
+//combine multiple reducers
+const rootReducer = combineReducers({
+  user: authReducer
+});
+
+//create a reduce store
+ const store = createStore(rootReducer, composeWithDevTools());
+
+ //provide store to entire app using Provider
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
