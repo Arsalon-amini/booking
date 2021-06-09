@@ -1,5 +1,6 @@
 import React from 'react';
 import {useState} from 'react'; 
+import RegisterForm from '../components/RegisterForm'; 
 
 const Register = () => {
     const[name, setName] = useState(''); 
@@ -11,47 +12,7 @@ const Register = () => {
         console.table({name, email, password});
     }
 
-    const registerForm = () => (
-        <form onSubmit={handleSubmit} className="mt-3">
 
-           <div className="form-group mb-3">
-               <label className="form-label"> Your Name</label>
-                <input 
-                type="text" 
-                className="form-control" 
-                placeholder="Enter Name" 
-                value={name} onChange={(e) => setName(e.target.value)}
-                />
-           </div>
-
-           <div className="form-group mb-3">
-               <label className="form-label"> Email </label>
-                <input 
-                type="email" 
-                className="form-control" 
-                placeholder="Enter Email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)}
-                />
-           </div>
-
-           <div className="form-group mb-3">
-               <label className="form-label"> Password </label>
-                <input 
-                type="password" 
-                className="form-control" 
-                placeholder="Enter Password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)}
-                />
-           </div>
-
-           <button className="btn-primary">
-               Submit
-           </button>
-
-        </form>
-    )
     return(
         <>
         <div class="container-fluid  bg-secondary p-5 text-center">
@@ -61,7 +22,15 @@ const Register = () => {
         <div className="container">
             <div className="row">
                 <div className="col-md-6" offset-md-3>
-                    {registerForm()}
+                    <RegisterForm
+                        handleSubmit={handleSubmit}
+                        name={name}
+                        setName={setName}
+                        email={email}
+                        setEmail={setEmail}
+                        password={password}
+                        setPassword={setPassword}
+                    />
                 </div>
             </div>
         </div>
