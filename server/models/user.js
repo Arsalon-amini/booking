@@ -17,7 +17,7 @@ const userSchema = new Schema({
     password: {
         type: String, 
         required: true,
-        minLength: 5,
+        minLength: 6,
         maxLength: 1024
     },
     stripe_account_id: '',
