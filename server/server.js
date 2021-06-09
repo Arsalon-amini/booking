@@ -17,6 +17,7 @@ mongoose.connect(process.env.DATABASE, {
 //middleware
 app.use(cors()); 
 app.use(morgan("dev")); //run morgan (HTTP request logger) in dev mode
+app.use(express.json());
 
 // automatically loads and applies routes as middleware
 readdirSync("./routes").map((r) => 
