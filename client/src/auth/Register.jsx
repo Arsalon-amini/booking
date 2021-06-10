@@ -13,7 +13,7 @@ const Register = ({history}) => {
     const handleSubmit = async (e) => {
         e.preventDefault(); 
         try {
-            const res = await axios.post(`http://localhost:8000/api/register`, {
+            const res = await axios.post(`${process.env.REACT_APP_API}/register`, {
                 name: name, 
                 email: email,
                 password: password
@@ -26,7 +26,6 @@ const Register = ({history}) => {
                 toast.error(err.response.data);
         }
     };
-
 
     return(
         <>
