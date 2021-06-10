@@ -2,10 +2,10 @@ import React from 'react';
 import {useState} from 'react'; 
 import RegisterForm from '../components/RegisterForm'; 
 import axios from 'axios'; 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
-const Register = () => {
+
+const Register = ({history}) => {
     const[name, setName] = useState(''); 
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState('');
@@ -18,8 +18,8 @@ const Register = () => {
                 email: email,
                 password: password
             });
-            console.log("Register User ===> ", res); 
             toast.success('Register successful'); 
+            history.push("/login"); 
         } catch (err) {
             console.log(err); 
             if(err.response.status === 400)
@@ -33,8 +33,6 @@ const Register = () => {
         <div class="container-fluid  bg-secondary p-5 text-center">
             <h1>Register</h1>
         </div>
-
-        <ToastContainer position="top-center"/>
 
         <div className="container">
             <div className="row">
