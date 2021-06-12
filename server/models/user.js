@@ -8,7 +8,7 @@ const userSchema = new Schema({
         trim: true, 
         required: 'Name is Required'
     },
-    name: {
+    email: {
         type: String,
         trim: true, 
         required: 'Email is Required',
@@ -42,5 +42,6 @@ userSchema.pre('save', function(next) {
         return next(); 
     }
 });
+
 
 export default mongoose.model('User', userSchema); 
