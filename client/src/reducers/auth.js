@@ -1,5 +1,6 @@
 let userState;
 
+//restore redux state w/ local storage after page refresh
 if(window.localStorage.getItem('auth')){
   userState = JSON.parse(window.localStorage.getItem('auth'));
 } else {
