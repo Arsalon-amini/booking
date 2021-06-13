@@ -44,7 +44,7 @@ userSchema.pre('save', function(next) {
 });
 
 userSchema.methods.comparePassword = function (password, next){
-    bycrypt.compare(password, this.password, function(err, match){
+    bcrypt.compare(password, this.password, function(err, match){
         if(err){
             console.log("Compare Password error", err);
             return next(err, false);
@@ -53,6 +53,7 @@ userSchema.methods.comparePassword = function (password, next){
         return next(null, match); 
     });
 };
+
 
 
 export default mongoose.model('User', userSchema); 
