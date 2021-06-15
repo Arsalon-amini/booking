@@ -3,6 +3,7 @@ import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TopNav from './components/TopNav';
 import ProtectedRoute from './components/ProtectedRoute'; 
+import DashboardSeller from './user/DashboardSeller';
 
 //Routes
 import Home from './booking/Home';
@@ -23,6 +24,7 @@ function App() {
         <Route exact path='/login' component={Login}/>
         <Route exact path='/register' component={Register}/>
         <ProtectedRoute exact path='/dashboard' component={Dashboard}/>
+        <ProtectedRoute exact path='/dashboard/seller' component={DashboardSeller}/>
       </Switch>
     </BrowserRouter>
   );
