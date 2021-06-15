@@ -3,13 +3,15 @@ import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TopNav from './components/TopNav';
 import ProtectedRoute from './components/ProtectedRoute'; 
-import DashboardSeller from './user/DashboardSeller';
+
 
 //Routes
 import Home from './booking/Home';
 import Login from './auth/Login';
 import Register from './auth/Register';
 import Dashboard from './user/Dashboard'; 
+import DashboardSeller from './user/DashboardSeller';
+import NewHotel from './hotels/NewHotel';
 
 
 
@@ -23,8 +25,21 @@ function App() {
         <Route exact path='/' component={Home}/>
         <Route exact path='/login' component={Login}/>
         <Route exact path='/register' component={Register}/>
-        <ProtectedRoute exact path='/dashboard' component={Dashboard}/>
-        <ProtectedRoute exact path='/dashboard/seller' component={DashboardSeller}/>
+        <ProtectedRoute 
+          exact 
+          path='/dashboard' 
+          component={Dashboard}
+        />
+        <ProtectedRoute 
+          exact 
+          path='/dashboard/seller' 
+          component={DashboardSeller}
+        />
+         <ProtectedRoute 
+          exact 
+          path='/hotels/new' 
+          component={NewHotel}
+        />
       </Switch>
     </BrowserRouter>
   );
