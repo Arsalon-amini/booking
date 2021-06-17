@@ -2,10 +2,29 @@ import DashboardNav from '../components/DashboardNav';
 import ConnectNav from '../components/ConnectNav';
 import { Link } from 'react-router-dom';
 import {useSelector} from 'react-redux'; 
-import { HomeOutlined } from '@ant-design/icons'
+import { HomeOutlined } from '@ant-design/icons';
+import { createConnectAccount } from '../Actions/stripe'; 
+import { useState } from 'react';
+import {toast} from 'react-toastify';
 
 const DashboardSeller = () => {
     const { auth } = useSelector((state) => ({...state}));
+    const[loading, setLoading] = useState(false); 
+
+    const handleClick = async () => {
+        setLoading(true);
+        
+        try {
+            let res = await createConnectAccount(auth.token); 
+            console.log(res); //get Login link 
+        } catch (err) {
+            console.log(err);
+            toast.error("Stripe connection failed, try again."); 
+            setLoading(false); 
+        }
+
+    }
+
     const connected = () => (
         <div className="container-fluid">
             <div className="row">
@@ -27,8 +46,13 @@ const DashboardSeller = () => {
                         <HomeOutlined className="h1" />
                         <h4>Setup Payouts to post hotel rooms</h4>
                         <p className="lead">We partner with stripe to transfer earnings to your bank account </p>
-                        <button className="btn btn-primary mb-3">
-                            Setup Payouts
+                        <button 
+                            disabled={loading}
+                            onClick={handleClick} 
+                            className="btn btn-primary mb-3"
+                        >
+                            {loading ? 'Processing...' : 'Setup Payouts'}
+                            
                         </button>
                             <p className="text-muted">
                                 <small>
