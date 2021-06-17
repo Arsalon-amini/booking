@@ -10,10 +10,15 @@ export const createConnectAccount = async (req, res) => {
     const user = await User.findById(req.user._id).exec();
     console.log("user", user); 
     // if user doesn't have a stripe_account_id, create
-    const account = await stripe.accounts.create({
-        type: "express"
-    });
-    console.log("account", account); 
+    if(!user.stripe_account_id){
+        const account = await stripe.accounts.create({
+            type: "express"
+        });
+        console.log("account", account); //stripe returns an account obj. with an id
+        user.stripe_account_id = account.id; //set user obj. stripe property to stripe id
+        user.save(); //save in db
+    }
+    
     // create account link
     // update payment schedule 
 }
