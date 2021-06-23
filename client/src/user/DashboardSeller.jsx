@@ -13,10 +13,10 @@ const DashboardSeller = () => {
 
     const handleClick = async () => {
         setLoading(true);
-        
         try {
             let res = await createConnectAccount(auth.token); 
             console.log(res); //get Login link 
+            window.location.href = res.data;
         } catch (err) {
             console.log(err);
             toast.error("Stripe connection failed, try again."); 
