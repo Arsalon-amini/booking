@@ -41,7 +41,7 @@ export const login = async (req, res) => {
             console.log('Compare password in login err', err);
             if(!match || err) return res.status(400).send('Wrong Password');
             //Generate a token, send res to client
-            let token = jwt.sign( {_id: user._id}, process.env.JWT_SECRET, { expiresIn: '1d'} );
+            let token = jwt.sign( {_id: user._id}, process.env.JWT_SECRET, { expiresIn: '7d'} );
             res.json({token, user: {
                 _id: user._id,
                 name: user.name,

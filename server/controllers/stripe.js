@@ -5,12 +5,11 @@ import queryString from 'query-string';
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
 export const createConnectAccount = async (req, res) => {
-    console.log("Outcome of middleware fn expressJwt", req.user)
-    console.log("You hit create connect endpoint");
     // find user from DB
     const user = await User.findById(req.user._id).exec();
-    console.log("user", user); 
+    // console.log("user", user); 
     // if user doesn't have a stripe_account_id, create
+    
     if(!user.stripe_account_id){
         const account = await stripe.accounts.create({
             type: "express"
@@ -19,6 +18,7 @@ export const createConnectAccount = async (req, res) => {
         user.stripe_account_id = account.id; //set user obj. stripe property to stripe id
         user.save(); //save in db
     }
+
     // create login link
     let accountLink = await stripe.accountLinks.create({
         account: user.stripe_account_id,
@@ -39,4 +39,11 @@ export const createConnectAccount = async (req, res) => {
     
     res.send(link);
     // update payment schedule 
+}
+
+export const getAccountStatus = async (req, res) => {
+    console.log('GET ACCOUNT STATUS');
+    const user = await User.findById(req.user._id).exec();
+    const account = await stripe.accounts.retrieve(user.stripe_account_id); 
+    console.log(account); 
 }
