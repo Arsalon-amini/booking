@@ -42,12 +42,18 @@ export const login = async (req, res) => {
             if(!match || err) return res.status(400).send('Wrong Password');
             //Generate a token, send res to client
             let token = jwt.sign( {_id: user._id}, process.env.JWT_SECRET, { expiresIn: '7d'} );
-            res.json({token, user: {
+            
+            res.json({
+                token, 
+                user: {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 createdAt: user.createdAt,
-                updatedAt: user.updatedAt
+                updatedAt: user.updatedAt,
+                stripe_account_id: user.stripe_account_id,
+                stripe_seller: user.stripe_seller,
+                stripeSession: user.stripe_session
             }});
         })
     } catch (err) {
