@@ -41,9 +41,21 @@ export const createConnectAccount = async (req, res) => {
     // update payment schedule 
 }
 
+//gives the updated user (minus password, returns new data immediately)
 export const getAccountStatus = async (req, res) => {
     console.log('GET ACCOUNT STATUS');
     const user = await User.findById(req.user._id).exec();
     const account = await stripe.accounts.retrieve(user.stripe_account_id); 
-    console.log(account); 
-}
+    //console.log(account); 
+    const updatedUser = await User.findByIdAndUpdate(
+        user._id, 
+        {
+        stripe_seller: account,
+        },
+        { new: true }
+    )
+    .select('-password')
+    .exec();
+    console.log(updatedUser); 
+    res.json(updatedUser); 
+};
