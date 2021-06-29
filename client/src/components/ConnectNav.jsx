@@ -2,7 +2,8 @@ import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Card, Avatar, Badge } from 'antd';
 import moment from 'moment';
-import {getAccountBalance, currencyFormatter} from '../Actions/stripe';
+import {getAccountBalance, currencyFormatter, payoutSetting } from '../Actions/stripe';
+import {SettingOutlined} from '@ant-design/icons'; 
 
 const {Meta} = Card; 
 
@@ -18,6 +19,12 @@ const ConnectNav = () => {
             setBalance(res.data);
         });
     },[])
+
+
+    const handlePayoutSettings = (async) => {
+        
+    }
+
     return ( 
         <div className="d-flex justify-content-around">
             <Card>
@@ -39,7 +46,16 @@ const ConnectNav = () => {
                         ))}
                     </Card>
                 </Ribbon>
-                <div>Payout Settings</div>
+
+                <Ribbon text="Payouts">
+                    <Card 
+                        onClick={handlePayoutSettings} 
+                        className="bg-light pointer"
+                    >
+                        <SettingOutlined className="h5 pt-2"/>
+
+                    </Card>
+                </Ribbon>
             </>
     )}
         </div>
