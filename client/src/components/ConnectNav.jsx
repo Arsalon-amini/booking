@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Card, Avatar, Badge } from 'antd';
+import { toast } from 'react-toastify';
 import moment from 'moment';
 import {getAccountBalance, currencyFormatter, payoutSetting } from '../Actions/stripe';
 import {SettingOutlined} from '@ant-design/icons'; 
@@ -8,10 +9,12 @@ import {SettingOutlined} from '@ant-design/icons';
 const {Meta} = Card; 
 
 const ConnectNav = () => {
+    const [loading, setLoading] = useState(false); 
     const [balance, setBalance ] = useState(0);
-    const { auth } = useSelector((state) => ({...state}));
-    const { user } = auth; 
     const { Ribbon } = Badge;
+    const { auth } = useSelector((state) => ({...state}));
+    const { user, token } = auth; 
+    
 
     useEffect(() => {
         getAccountBalance(auth.token).then(res => {
@@ -21,8 +24,18 @@ const ConnectNav = () => {
     },[])
 
 
-    const handlePayoutSettings = (async) => {
-        
+    const handlePayoutSettings = async() => {
+        setLoading(true); 
+        try {
+            const res = await payoutSetting(token);
+            console.log('RES for payout setting link', res); 
+            //window.location.href = res.data;
+            setLoading(false); 
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+            toast("Unable to access settings.Try again"); 
+        }
     }
 
     return ( 
