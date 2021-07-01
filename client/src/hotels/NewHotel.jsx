@@ -1,8 +1,10 @@
 import {useState} from 'react';
 import {toast} from 'react-toastify';
 import AlgoliaPlaces from 'algolia-places-react';
-import {DatePicker} from 'antd'; 
+import {DatePicker, Select } from 'antd'; 
 import moment from 'moment'; 
+
+const {Option} = Select; //antd design component 
 
 const config = {
     appId: process.env.REACT_APP_ALGOLIA_APP_ID,
@@ -90,14 +92,23 @@ const NewHotel = () => {
                     value={price}
                 />
 
-                <input 
+                {/* <input 
                     type="number" 
                     name="bed"
                     onChange={handleChange} 
                     placeholder="Number of Beds" 
                     className="form-control m-2" 
                     value={bed}
-                />
+                /> */}
+
+                <Select onChange={(value) => setValues({...values, bed: value})} className="w-100 m-2" size="large" placeholder="number of beds">
+                    <Option key={1}>{1}</Option>
+                    <Option key={2}>{2}</Option>
+                    <Option key={3}>{3}</Option>
+                    <Option key={4}>{4}</Option>
+                </Select>
+
+                
             </div>
             <DatePicker 
                 placeholder="From date" 
