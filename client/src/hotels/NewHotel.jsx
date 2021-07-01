@@ -15,6 +15,7 @@ const NewHotel = () => {
         to: '',
         bed: ''
     });
+    const [preview, setPreview] = useState('https://via.placeholder.com/100x100.png?text=PREVIEW'); 
     const {title, content, location, image, price, from, to, bed} = values; 
 
     const handleSubmit = (e) => {
@@ -22,21 +23,24 @@ const NewHotel = () => {
     };
 
     const handleImageChange = (e) => {
-        //
+        //console.log(e.target.files[0]); 
+        setPreview(URL.createObjectURL(e.target.files[0]));
+        setValues({...values, image: e.target.files[0]});
     };
 
     const handleChange = (e) => {
-        //
+        setValues({...values, [e.target.name]: e.target.value});
     };
 
     const hotelForm = () => (
         <form onSubmit={handleSubmit}>
             <div className="form-group">
-                <label className="btn btn-outline-secondary btn-bloc km-2 text-left">Image
+                <label className="btn btn-outline-secondary btn-bloc km-2 text-left">
+                    Image
                     <input 
                         type="file" 
                         name="image" 
-                        onChange={handleChange} 
+                        onChange={handleImageChange} 
                         accept="image/*" 
                         hidden
                     />
@@ -44,6 +48,7 @@ const NewHotel = () => {
 
                 <input 
                     type="text" 
+                    name="title"
                     onChange={handleChange} 
                     placeholder="Title" 
                     className="form-control m-2" 
@@ -94,6 +99,11 @@ const NewHotel = () => {
                         {hotelForm()}
                     </div>
                     <div className="col-md-2">
+                        <img 
+                            src={preview} 
+                            alt="preview_image"
+                            className="img img-fluid m-2"
+                        />
                          Image <pre>{JSON.stringify(values, null, 4)}</pre>
                     </div>
                 </div>
