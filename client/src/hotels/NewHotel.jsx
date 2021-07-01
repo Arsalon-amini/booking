@@ -2,6 +2,12 @@ import {useState} from 'react';
 import {toast} from 'react-toastify';
 import AlgoliaPlaces from 'algolia-places-react';
 
+const config = {
+    appId: process.env.REACT_APP_ALGOLIA_APP_ID,
+    apiKey: process.env.REACT_APP_ALGOLIA_API_KEY,
+    language: "en",
+    //countries: ["au"],
+};
 
 const NewHotel = () => {
     //State
@@ -18,6 +24,7 @@ const NewHotel = () => {
     const [preview, setPreview] = useState('https://via.placeholder.com/100x100.png?text=PREVIEW'); 
     const {title, content, location, image, price, from, to, bed} = values; 
 
+    //event handlers
     const handleSubmit = (e) => {
         //
     };
@@ -61,6 +68,15 @@ const NewHotel = () => {
                     placeholder="Content" 
                     className="form-control m-2" 
                     value={content}
+                />
+
+                <AlgoliaPlaces 
+                    className="form-control ml-2 mr2" 
+                    placeholder="location" 
+                    defaultValue={location}
+                    options={config}
+                    onChange={({suggestion}) => (setValues({...values, location: suggestion.value}))}
+                    style={{height: "50px"}}
                 />
 
                 <input 
