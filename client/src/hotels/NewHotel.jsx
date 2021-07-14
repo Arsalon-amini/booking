@@ -3,6 +3,8 @@ import {toast} from 'react-toastify';
 import AlgoliaPlaces from 'algolia-places-react';
 import {DatePicker, Select } from 'antd'; 
 import moment from 'moment'; 
+import {createHotel} from '../Actions/hotel';
+import {useSelector} from 'react-redux'; 
 
 const {Option} = Select; //antd design component 
 
@@ -14,23 +16,48 @@ const config = {
 };
 
 const NewHotel = () => {
+    const { auth } = useSelector((state) => ({...state}) ); 
+    const { token } = auth; 
+
     //State
     const [values, setValues] = useState({
         title: '',
         content: '',
-        location: '',
         image:'',
         price: '',
         from: '',
         to: '',
         bed: ''
     });
+
     const [preview, setPreview] = useState('https://via.placeholder.com/100x100.png?text=PREVIEW'); 
-    const {title, content, location, image, price, from, to, bed} = values; 
+    const [location, setLocation] = useState(''); 
+    const {title, content, image, price, from, to, bed} = values; 
 
     //event handlers
-    const handleSubmit = (e) => {
-        //
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // console.log(values);
+        // console.log(location);
+
+        let hotelData = new FormData();
+        hotelData.append('title', title); //key and value
+        hotelData.append('content', content);
+        hotelData.append('location', location);
+        hotelData.append('price', price);
+        hotelData.append('title', title);
+        image && hotelData.append('image', image);
+        hotelData.append('from', from);
+        hotelData.append('to', to);
+        hotelData.append('bed', bed);
+        console.log([...hotelData]);
+
+        let res = await createHotel(token, hotelData);
+        console.log('Hotel create res', res); 
+        toast('New Hotel is Posted'); 
+        setTimeout(() => {
+            window.location.reload(); 
+        }, 1000)
     };
 
     const handleImageChange = (e) => {
@@ -79,7 +106,7 @@ const NewHotel = () => {
                     placeholder="location" 
                     defaultValue={location}
                     options={config}
-                    onChange={({suggestion}) => (setValues({...values, location: suggestion.value}))}
+                    onChange={({suggestion}) => (setLocation(suggestion.value))}
                     style={{height: "50px"}}
                 />
 
@@ -155,7 +182,9 @@ const NewHotel = () => {
                             alt="preview_image"
                             className="img img-fluid m-2"
                         />
-                         Image <pre>{JSON.stringify(values, null, 4)}</pre>
+                         Image 
+                         <pre>{JSON.stringify(values, null, 4)}</pre>
+                         {JSON.stringify(location)}
                     </div>
                 </div>
             </div>
