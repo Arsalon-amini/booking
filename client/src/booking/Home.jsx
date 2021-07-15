@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getHotels } from '../Actions/hotel';
+import SmallCard from '../components/SmallCard';
 
 const Home = () => {
     const [hotels, setHotels] = useState([]);
@@ -16,11 +17,11 @@ const Home = () => {
   
     return (
         <>
-            <div className="container-fluid p-5 text-center">
+            <div className="container-fluid bg-secondary p-5 text-center">
                 <h1>All Hotels </h1> 
             </div>
             <div className="container-fluid">
-                <pre>{JSON.stringify(hotels, null, 4)}</pre>
+                {hotels.map((h) => <SmallCard key={h._id} h={h} />)}
             </div>
         </>
     )
