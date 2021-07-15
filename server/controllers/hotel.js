@@ -2,8 +2,6 @@ import Hotel from '../models/hotels';
 import fs from 'fs';
 
 export const create = async (req, res) => {
-    console.log('req fields', req.fields);
-    console.log('req files', req.files);
     try {
         let fields = req.fields;
         let files = req.files;
@@ -31,4 +29,14 @@ export const create = async (req, res) => {
             err: err.message,
         });
     }
+};
+
+export const hotels = async (req, res) => {
+    let allHotels = await Hotel.find({})
+        .limit(24)
+        .select("-image.data")
+        .populate('postedBy', '_id name') //returns original data from userSchema via the reference in our HotelSchema
+        .exec();
+    console.log(allHotels);
+    res.json(allHotels); //send hotels to frontEnd
 };
