@@ -12,6 +12,7 @@ const NewHotel = () => {
     const { auth } = useSelector((state) => ({...state}) ); 
     const { token } = auth; 
 
+    //state
     const [values, setValues] = useState({
         title: '',
         content: '',
@@ -28,9 +29,6 @@ const NewHotel = () => {
     //event handlers
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(values);
-        // console.log(location);
-
         let hotelData = new FormData();
         hotelData.append('title', title); //key and value
         hotelData.append('content', content);
@@ -43,12 +41,17 @@ const NewHotel = () => {
         hotelData.append('bed', bed);
         console.log([...hotelData]);
 
-        let res = await createHotel(token, hotelData);
-        console.log('Hotel create res', res); 
-        toast('New Hotel is Posted'); 
-        setTimeout(() => {
-            window.location.reload(); 
-        }, 1000)
+        try {
+            let res = await createHotel(token, hotelData);
+            console.log("Hotel create res", res);
+            toast.success("New Hotel is Posted");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+        } catch (err) {
+            console.log(err);
+            toast.error(err.response.data);
+       }
     };
 
     const handleImageChange = (e) => {
