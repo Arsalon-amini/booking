@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'; 
 import { login } from "../Actions/auth";
-import LoginForm from '../components/LoginForm';
+import LoginForm from './LoginForm';
 import {useState} from 'react'; 
 import { useDispatch } from "react-redux";
 

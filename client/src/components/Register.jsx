@@ -1,5 +1,5 @@
 import {useState} from 'react'; 
-import RegisterForm from '../components/RegisterForm'; 
+import RegisterForm from './RegisterForm'; 
 import { toast } from 'react-toastify';
 import {register} from '../Actions/auth'; 
 

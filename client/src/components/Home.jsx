@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getHotels } from '../Actions/hotel';
-import SmallCard from '../components/SmallCard';
+import SmallCard from './SmallCard';
 
 const Home = () => {
     const [hotels, setHotels] = useState([]);

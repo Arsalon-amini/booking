@@ -6,13 +6,13 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 
 //Routes
-import Home from './booking/Home';
-import Login from './auth/Login';
-import Register from './auth/Register';
-import Dashboard from './user/Dashboard'; 
-import DashboardSeller from './user/DashboardSeller';
-import NewHotel from './hotels/NewHotel';
-import StripeCallback from './stripe/StripeCallback'; 
+import Home from './components/Home';
+import Login from './components/Login';
+import Register from './components/Register';
+import Dashboard from './components/Dashboard'; 
+import DashboardSeller from './components/DashboardSeller';
+import NewHotel from './components/NewHotel';
+import StripeCallback from './components/StripeCallback'; 
 
 
 function App() {

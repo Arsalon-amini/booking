@@ -3,7 +3,7 @@ import {toast} from 'react-toastify';
 import {DatePicker, Select } from 'antd'; 
 import {createHotel} from '../Actions/hotel';
 import { useSelector } from 'react-redux'; 
-import HotelCreateForm from '../components/forms/HotelCreateForm';
+import HotelCreateForm from './forms/HotelCreateForm';
 
 const {Option} = Select; //antd design component 
 

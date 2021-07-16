@@ -1,4 +1,5 @@
 import { currencyFormatter } from '../Actions/stripe';
+import { diffDays } from '../Actions/hotel';
 
 const SmallCard = ({ h }) => {
     return (
@@ -23,8 +24,19 @@ const SmallCard = ({ h }) => {
                 </span>
               </h3>
               <div className='card-body'>
-                <p className='alert alert-info'>{h.location}</p>
-                <p className='alert'>{`${h.content.substring(1, 200)}...`}</p>
+                            <p className='alert alert-info'>{h.location}</p>
+                            <p className='alert'>{`${h.content.substring(0, 200)}...`}</p>
+                            <p className="card-text">
+                                <span className="float-right text-primary">
+                                    for {diffDays(h.from, h.to)}
+                                    {diffDays(h.from, h.to) <= 1 ? " day" : " days"} 
+                                </span>
+                            </p>
+                            <p className="card-text">{h.bed} beds</p>
+                            <p className="card-text">Available From {new Date(h.from).toLocaleDateString()}</p>
+                            <button className="btn btn-primary">
+                                show more
+                            </button>
               </div>
             </div>
           </div>
