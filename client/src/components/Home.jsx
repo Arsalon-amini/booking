@@ -14,6 +14,10 @@ const Home = () => {
         let res = await getHotels(); 
         setHotels(res.data);
     }
+
+    const handleHotelDelete = () => { 
+        console.log('hotel deleted'); 
+    }
   
     return (
         <>
@@ -21,7 +25,8 @@ const Home = () => {
                 <h1>All Hotels </h1> 
             </div>
             <div className="container-fluid">
-                {hotels.map((h) => <SmallCard key={h._id} h={h} />)}
+                {hotels.map((h) =>
+                    <SmallCard key={h._id} h={h} onDelete={handleHotelDelete} />)}
             </div>
         </>
     )
