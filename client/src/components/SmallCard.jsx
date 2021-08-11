@@ -11,11 +11,19 @@ const SmallCard = ({ h, handleHotelDelete = f => f }) => {
       <div className='card mb-3 m-3'>
         <div className='row no-gutters'>
           <div className='col-md-4'>
-            <img
-              src='https://source.unsplash.com/collection/1862377/800x600?"{2}'
-              alt='Beautiful Hotel is Displayed'
-              className='card-image rounded img-fluid img'
-            />
+            {h.image && h.image.contentType ? (
+              <img
+                src={`${process.env.REACT_APP_API}/hotel/image/${h._id}`}
+                alt='Beautiful Hotel is Displayed'
+                className='card-image rounded img-fluid img'
+              />
+            ) : (
+              <img
+                src='https://source.unsplash.com/collection/1862377/800x600?"{2}'
+                alt='Beautiful Hotel is Displayed'
+                className='card-image rounded img-fluid img'
+              />
+            )}
           </div>
           <div className='col-md-8'>
             <div className='card-body'>
