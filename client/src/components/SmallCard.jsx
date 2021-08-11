@@ -3,7 +3,12 @@ import { diffDays } from "../Actions/hotel";
 import { useHistory, Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
-const SmallCard = ({ h, handleHotelDelete = f => f }) => {
+const SmallCard = ({
+  h,
+  handleHotelDelete = (f) => f,
+  owner = false,
+  showViewMoreButton = true,
+}) => {
   const history = useHistory();
 
   return (
@@ -50,16 +55,20 @@ const SmallCard = ({ h, handleHotelDelete = f => f }) => {
                 Available From {new Date(h.from).toLocaleDateString()}
               </p>
               <div className='d-flex justify-content-between h4'>
-                <button
+                {showViewMoreButton && (
+                  <button
                   className='btn btn-primary'
                   onClick={() => history.push(`/hotel/${h._id}`)}
-                >
-                  show more
-                </button>
-                <Link to={`/hotel/edit/${h._id}`}>
-                  <EditOutlined />
-                </Link>
-                <DeleteOutlined onClick={handleHotelDelete(h._id)} />
+                > show more
+                </button> )}
+                {owner && (
+                  <>
+                    <Link to={`/hotel/edit/${h._id}`}>
+                      <EditOutlined />
+                    </Link>
+                    <DeleteOutlined onClick={handleHotelDelete(h._id)} />
+                  </>
+                )}
               </div>
             </div>
           </div>
