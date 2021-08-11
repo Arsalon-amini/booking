@@ -49,3 +49,12 @@ export const image = async (req, res) => {
     }
 
 }
+
+export const sellerHotels = async (req, res) => {
+    let all = await Hotel.find({ postedBy: req.user._id })
+        .select('-image.data')
+        .populate('postedBy', '_id name')
+        .exec(); 
+    
+    res.send(all); 
+}
