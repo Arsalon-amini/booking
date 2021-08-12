@@ -28,3 +28,11 @@ export const sellerHotels = async (token) => {
         },
     });
 }
+
+export const deleteHotel = async(token, hotelId) => {
+    await axios.delete(`${process.env.REACT_APP_API}/delete-hotel/${hotelId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}

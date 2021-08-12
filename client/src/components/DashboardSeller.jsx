@@ -5,8 +5,9 @@ import {useSelector} from 'react-redux';
 import { HomeOutlined } from '@ant-design/icons';
 import { createConnectAccount } from '../Actions/stripe'; 
 import { useState, useEffect } from 'react';
-import { sellerHotels } from '../Actions/hotel';
-import {toast} from 'react-toastify';
+import { sellerHotels, deleteHotel } from '../Actions/hotel';
+import { toast } from 'react-toastify';
+import SmallCard from '../components/SmallCard';
 
 const DashboardSeller = () => {
     const { auth } = useSelector((state) => ({ ...state }));
@@ -36,19 +37,40 @@ const DashboardSeller = () => {
 
     }
 
+    const handleHotelDelete = async (hotelId) => {
+        if (!window.confirm("Are you sure?")) return;
+        deleteHotel(auth.token, hotelId).then(res => {
+            toast.success("Hotel Deleted");
+            loadSellerHotels();
+        })
+    }
+
     const connected = () => (
-        <div className="container-fluid">
-            <div className="row">
-                <div className="col-md-10">
-                    <h2>Your Hotels</h2>
-                </div>
-                <div className="col-md-2">
-                    <Link to='/hotels/new' className="btn btn-primary">+ Add New</Link>
-                </div>
-            </div>
-            <div className="row">{JSON.stringify(hotels)}</div>
+      <div className='container-fluid'>
+        <div className='row'>
+          <div className='col-md-10'>
+            <h2>Your Hotels</h2>
+          </div>
+          <div className='col-md-2'>
+            <Link to='/hotels/new' className='btn btn-primary'>
+              + Add New
+            </Link>
+          </div>
         </div>
-    )
+
+        <div className='row'>
+          {hotels.map((h) => (
+            <SmallCard
+              key={h._id}
+              h={h}
+              showViewMoreButton={false}
+              owner={true}
+              handleHotelDelete={handleHotelDelete}
+            />
+          ))}
+        </div>
+      </div>
+    );
 
     const notConnected = () => (
         <div className="container-fluid">
