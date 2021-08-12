@@ -5,8 +5,11 @@ export const create = async (req, res) => {
     try {
         let fields = req.fields;
         let files = req.files;
-
+        
         let hotel = new Hotel(fields);
+        hotel.postedBy = req.user._id;
+        
+
         if (files.image) {
             hotel.image.data = fs.readFileSync(files.image.path); //give image path to fn, gives image data
             hotel.image.contentType = files.image.type;
@@ -19,9 +22,7 @@ export const create = async (req, res) => {
             }
             res.json(result); //saved hotel in db available in client as a response
 
-        }
-    )
-            
+        })        
 
     } catch (err) {
         console.log(err);
@@ -55,6 +56,6 @@ export const sellerHotels = async (req, res) => {
         .select('-image.data')
         .populate('postedBy', '_id name')
         .exec(); 
-    
+    console.log(all)
     res.send(all); 
 }
