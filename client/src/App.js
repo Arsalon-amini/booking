@@ -13,6 +13,7 @@ import Dashboard from './components/Dashboard';
 import DashboardSeller from './components/DashboardSeller';
 import NewHotel from './components/NewHotel';
 import StripeCallback from './components/StripeCallback'; 
+import EditHotel from './components/EditHotel';
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
       <Switch>
         <Route exact path='/' component={Home}/>
         <Route exact path='/login' component={Login}/>
-        <Route exact path='/register' component={Register}/>
+        <Route exact path='/register' component={Register} />
         <ProtectedRoute 
           exact 
           path='/dashboard' 
@@ -44,6 +45,11 @@ function App() {
           exact 
           path='/stripe/callback' 
           component={StripeCallback}
+        />
+        <ProtectedRoute 
+          exact 
+          path='/hotel/edit/:hotelId' 
+          component={EditHotel}
         />
       </Switch>
     </BrowserRouter>
