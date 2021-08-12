@@ -64,3 +64,11 @@ export const remove = async (req, res) => {
     let removed = await Hotel.findByIdAndDelete(req.params.hotelId).exec();
     res.json({ ok: true });
 }
+
+export const read = async (req, res) => {
+    let hotel = await Hotel.findById(req.params.hotelId)
+        .select('-image.data')
+        .exec();
+    console.log(hotel); 
+    res.json(hotel);
+}
