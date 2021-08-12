@@ -16,6 +16,6 @@ router.get('/hotels', hotels);
 router.get('/hotel/image/:hotelId', image); 
 router.get('/seller-hotels', requireSignIn, sellerHotels); 
 router.delete('/delete-hotel/:hotelId', requireSignIn, hotelOwner, remove);
-router.get("/hotels/:hotelId", read);
+router.get("/hotel/:hotelId", read);
 
 module.exports = router; 
