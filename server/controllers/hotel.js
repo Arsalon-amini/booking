@@ -59,3 +59,8 @@ export const sellerHotels = async (req, res) => {
     console.log(all)
     res.send(all); 
 }
+
+export const remove = async (req, res) => {
+    let removed = await Hotel.findByIdAndDelete(req.params.hotelId).exec();
+    res.json({ ok: true });
+}
