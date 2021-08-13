@@ -16,7 +16,6 @@ const EditHotel = ({ match }) => {
     title: "",
     content: "",
     location:"",
-    image: "",
     price: "",
     from: "",
     to: "",
@@ -25,6 +24,7 @@ const EditHotel = ({ match }) => {
   const [preview, setPreview] = useState(
       "https://via.placeholder.com/100x100.png?text=PREVIEW"
   ); 
+  const [image, setImage] = useState(); 
   const [location, setLocation] = useState(""); 
     
   const handleSubmit = async (e) => {
@@ -53,7 +53,7 @@ const EditHotel = ({ match }) => {
     }
   const handleImageChange = (e) => {
       setPreview(URL.createObjectURL(e.target.files[0]));
-      setValues({ ...values, image: e.target.files[0] });
+      setImage(e.target.files[0]);
     };
 
   const handleChange = (e) => {
@@ -70,7 +70,7 @@ const EditHotel = ({ match }) => {
       setPreview(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`)
   };
 
-  const { title, content, image, price, from, to, bed } = values;
+  const { title, content, price, from, to, bed } = values;
 
   return (
     <>
@@ -80,6 +80,13 @@ const EditHotel = ({ match }) => {
         </div>
       </div>
       <div className='container-fluid'>
+        <div className='col-md-2'>
+          <img
+            src={preview}
+            alt='preview text'
+            className=' img img-fluid m-2'
+          />
+        </div>
         <div className='row'>
           <div className='col-md-10'>
             <HotelEditForm
@@ -91,14 +98,6 @@ const EditHotel = ({ match }) => {
               setValues={setValues}
               values={values}
             />
-            <div className='col-md-2'>
-              <img
-                src={preview}
-                alt='preview text'
-                className=' img img-fluid m-2'
-              />
-              <pre>{JSON.stringify(values, null, 4)}</pre>
-            </div>
           </div>
         </div>
       </div>
