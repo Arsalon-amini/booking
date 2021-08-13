@@ -42,7 +42,7 @@ export const read = async(hotelId) => {
 }
 
 export const updateHotel = async (token, data, hotelId) => {
-    await axios.put(`${process.env.REACT_APP_API}/update-hotel/${hotelId}`, data, {
+    return await axios.put(`${process.env.REACT_APP_API}/update-hotel/${hotelId}`, data, {
         headers: {
             Authorization: `Bearer ${token}`
         },
