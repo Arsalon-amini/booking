@@ -3,41 +3,41 @@ import { toast } from 'react-toastify';
 import { DatePicker, Select } from "antd"; 
 import { useSelector } from "react-redux"; 
 import { read } from '../Actions/hotel';
+import HotelEditForm from './forms/HotelEditForm';
 
 
 const { Option } = Select;
 
 const EditHotel = ({ match }) => {
-  //redux
   const { auth } = useSelector((state) => ({ ...state }));
   const { token } = auth; 
-  //state
+
   const [values, setValues] = useState({
     title: "",
     content: "",
+    location:"",
     image: "",
     price: "",
     from: "",
     to: "",
     bed: "",
   });
-    const [preview, setPreview] = useState(
+
+  const [preview, setPreview] = useState(
       "https://via.placeholder.com/100x100.png?text=PREVIEW"
-    ); 
+  ); 
+  const [location, setLocation] = useState(""); 
     
- //destructuring variables from state
-  const { title, content, image, price, from, to, bed } = values; 
-    
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     //
     }
-    const handleImageChange = (e) => {
-      //console.log(e.target.files[0]);
+  
+  const handleImageChange = (e) => {
       setPreview(URL.createObjectURL(e.target.files[0]));
       setValues({ ...values, image: e.target.files[0] });
     };
 
-    const handleChange = (e) => {
+  const handleChange = (e) => {
       setValues({ ...values, [e.target.name]: e.target.value });
     };
 
@@ -48,8 +48,10 @@ const EditHotel = ({ match }) => {
   const loadSellerHotel = async () => {
     let res = await read(match.params.hotelId);
       setValues({ ...values, ...res.data });
-      setPreview(`${process.env.REACT_APP_API}/hotel/image/res.data._id`)
+      setPreview(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`)
   };
+
+  const { title, content, image, price, from, to, bed } = values;
 
   return (
     <>
@@ -61,7 +63,15 @@ const EditHotel = ({ match }) => {
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-md-10'>
-            Show Edit form
+            <HotelEditForm
+              handleChange={handleChange}
+              handleImageChange={handleImageChange}
+              handleSubmit={handleSubmit}
+              location={location}
+              setLocation={setLocation}
+              setValues={setValues}
+              values={values}
+            />
             <div className='col-md-2'>
               <img
                 src={preview}
