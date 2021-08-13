@@ -39,7 +39,7 @@ const NewHotel = () => {
         hotelData.append('from', from);
         hotelData.append('to', to);
         hotelData.append('bed', bed);
-        console.log([...hotelData]);
+        //console.log([...hotelData]);
 
         try {
             let res = await createHotel(token, hotelData);

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { DatePicker, Select } from "antd"; 
 import { useSelector } from "react-redux"; 
-import { read } from '../Actions/hotel';
+import { read, updateHotel } from '../Actions/hotel';
 import HotelEditForm from './forms/HotelEditForm';
 
 
@@ -22,16 +22,35 @@ const EditHotel = ({ match }) => {
     to: "",
     bed: "",
   });
-
   const [preview, setPreview] = useState(
       "https://via.placeholder.com/100x100.png?text=PREVIEW"
   ); 
   const [location, setLocation] = useState(""); 
     
   const handleSubmit = async (e) => {
-    //
+    e.preventDefault();
+    
+    let hotelData = new FormData(); 
+    hotelData.append("title", title); //key and value
+    hotelData.append("content", content);
+    hotelData.append("location", location);
+    hotelData.append("price", price);
+    hotelData.append("title", title);
+    image && hotelData.append("image", image);
+    hotelData.append("from", from);
+    hotelData.append("to", to);
+    hotelData.append("bed", bed);
+
+    try {
+      let res = await updateHotel(token, hotelData, match.params.hotelId);
+      //console.log("Hotel Update res", res);
+      toast.success(`${res.data.title} is updated!`)
+    } catch (error) {
+      //console.log(error);
+      toast.error(error.response.data.err);
     }
-  
+
+    }
   const handleImageChange = (e) => {
       setPreview(URL.createObjectURL(e.target.files[0]));
       setValues({ ...values, image: e.target.files[0] });
