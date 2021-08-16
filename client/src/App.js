@@ -14,6 +14,7 @@ import DashboardSeller from './components/DashboardSeller';
 import NewHotel from './components/NewHotel';
 import StripeCallback from './components/StripeCallback'; 
 import EditHotel from './components/EditHotel';
+import ViewHotel from './components/ViewHotels';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           path='/hotel/edit/:hotelId' 
           component={EditHotel}
         />
+        <Route exact path='/hotel/:hotelId' component={ViewHotel} />
       </Switch>
     </BrowserRouter>
   );
