@@ -3,6 +3,7 @@ import { read, diffDays } from "../Actions/hotel";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { getSessionId } from '../Actions/stripe';
+import { loadStripe } from "@stripe/stripe-js";
 
 const ViewHotel = ({ match, history }) => {
   const [hotel, setHotel] = useState({});
@@ -24,9 +25,14 @@ const ViewHotel = ({ match, history }) => {
     const handleClick = async (e) => {
         e.preventDefault();
         if (!auth) history.push('/login');
-        console.log(auth.token, match.params.hotelId);
+        //console.log(auth.token, match.params.hotelId);
         let res = await getSessionId(auth.token, match.params.hotelId); 
-        console.log('get session ID resoponse', res.data.sessionId);
+        //console.log('get session ID resoponse', res.data.sessionId);
+        const stripe = await loadStripe(process.env.REACT_APP_STRIPE_KEY);
+        stripe.redirectToCheckout({
+            sessionId: res.data.sessionId
+        })
+        .then((result) => res.data.sessionId)
     }
 
   return (
