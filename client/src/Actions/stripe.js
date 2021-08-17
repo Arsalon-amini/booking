@@ -42,3 +42,16 @@ export const payoutSetting = async (token) => await axios.post(
         },
     }
 )
+
+export const getSessionId = async (token, hotelId) => await axios.post(
+    `${process.env.REACT_APP_API}/stripe-session-id`,
+    { hotelId },
+    {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+);
+
+
+
