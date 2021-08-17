@@ -1,4 +1,5 @@
 import User from '../models/user'; 
+import Hotel from '../models/hotels';
 import Stripe from 'stripe';
 import queryString from 'query-string';
 
@@ -111,19 +112,24 @@ export const payoutSetting = async(req, res) => {
 }
 
 export const stripeSessionId = async (req, res) => {
-    console.log('you hit the stripe session id endpoint', req.body.hotelId);
+    const { hotelId } = req.body;
+
+    const item = await Hotel.findById(hotelId).populate('postedBy').exec();
+
+    const fee = (item.price * 20) / 100;
+    
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [{
-            name: 'Test Arsalon',
-            amount: 1000,
+            name: item.title,
+            amount: item.price * 100, //in cents
             currency: 'usd',
             quantity: 1
         }],
         payment_intent_data: {
-            application_fee_amount: 123,
+            application_fee_amount: fee * 100,
             transfer_data: {
-                destination: 'acct_1J6EAeQLowgaNlhi'
+                destination: item.postedBy.stripe_account_id
             },
         },
         mode: 'payment',
@@ -131,5 +137,9 @@ export const stripeSessionId = async (req, res) => {
         cancel_url: process.env.STRIPE_CANCEL_URL,
     });
 
-    console.log("Session", session); 
+    await User.findByIdAndUpdate(req.user._id, { stripeSession: session }).exec();
+
+    res.send({
+        sessionId: session.id
+    })
 }
