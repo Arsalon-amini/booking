@@ -109,3 +109,7 @@ export const payoutSetting = async(req, res) => {
         console.log('stripe setting payout error', err); 
     }
 }
+
+export const stripeSessionId = async (req, res) => {
+    console.log('you hit the stripe session id endpoint', req.body.hotelId);
+}
