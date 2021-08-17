@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { read, diffDays } from "../Actions/hotel";
 import moment from "moment";
 import { useSelector } from "react-redux";
-import { getSessionId } from '../Actions/stripe';
+import { getSessionId } from "../Actions/stripe";
 import { loadStripe } from "@stripe/stripe-js";
 
 const ViewHotel = ({ match, history }) => {
   const [hotel, setHotel] = useState({});
   const [image, setImage] = useState();
+  const [loading, setLoading] = useState(false);
 
   const { auth } = useSelector((state) => ({ ...state }));
 
@@ -21,19 +22,21 @@ const ViewHotel = ({ match, history }) => {
     setHotel(res.data);
     setImage(`${process.env.REACT_APP_API}/hotel/image/${res.data._id}`);
   };
-    
-    const handleClick = async (e) => {
-        e.preventDefault();
-        if (!auth) history.push('/login');
-        //console.log(auth.token, match.params.hotelId);
-        let res = await getSessionId(auth.token, match.params.hotelId); 
-        //console.log('get session ID resoponse', res.data.sessionId);
-        const stripe = await loadStripe(process.env.REACT_APP_STRIPE_KEY);
-        stripe.redirectToCheckout({
-            sessionId: res.data.sessionId
-        })
-        .then((result) => res.data.sessionId)
-    }
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    if (!auth) history.push("/login");
+    //console.log(auth.token, match.params.hotelId);
+    let res = await getSessionId(auth.token, match.params.hotelId);
+    //console.log('get session ID resoponse', res.data.sessionId);
+    const stripe = await loadStripe(process.env.REACT_APP_STRIPE_KEY);
+    stripe
+      .redirectToCheckout({
+        sessionId: res.data.sessionId,
+      })
+      .then((result) => res.data.sessionId);
+  };
 
   return (
     <>
@@ -68,8 +71,13 @@ const ViewHotel = ({ match, history }) => {
           <button
             onClick={handleClick}
             className='btn btn-block btn-lg btn-primary mt-3'
+            disabled={loading}
           >
-            {auth && auth.token ? "Book Now" : "Login to Book"}
+            {loading
+              ? "Loading..."
+              : auth && auth.token
+              ? "Book Now"
+              : "Login to Book"}
           </button>
         </div>
       </div>
