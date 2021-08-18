@@ -56,7 +56,7 @@ function App() {
         />
          <ProtectedRoute 
           exact 
-          path='/stripe/success' 
+          path='/stripe/success/:hotelId' 
           component={StripeSuccess}
         />
         <ProtectedRoute 

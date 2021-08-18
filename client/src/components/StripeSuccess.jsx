@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
+const StripeSuccess = ({ match }) => {
+    const { auth: { token } } = useSelector((state) => ({ ...state }));
+    
+    useEffect(() => {
+        console.log("send to backend", match.params.hotelId)
+        
+    }, [match.params.hotelId]);
 
-const StripeSuccess = () => {
     return (
       <div className='container'>
         <div className='col'>
-          <h2 className='text-center p-5'>Payment Success! You just got paid!</h2>
+                <h2 className='text-center p-5'>
+                    Payment Success! You just got paid!
+                     {match.params.hotelId}
+                    </h2>
         </div>
       </div>
     );
