@@ -133,7 +133,7 @@ export const stripeSessionId = async (req, res) => {
             },
         },
         mode: 'payment',
-        success_url: process.env.STRIPE_SUCCESS_URL,
+        success_url: `${process.env.STRIPE_SUCCESS_URL}/${item._id}`,
         cancel_url: process.env.STRIPE_CANCEL_URL,
     });
 
