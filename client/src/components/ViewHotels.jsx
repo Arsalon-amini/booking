@@ -27,9 +27,12 @@ const ViewHotel = ({ match, history }) => {
     e.preventDefault();
     setLoading(true);
     if (!auth) history.push("/login");
-    //console.log(auth.token, match.params.hotelId);
+
     let res = await getSessionId(auth.token, match.params.hotelId);
+
+    //console.log(auth.token, match.params.hotelId);
     //console.log('get session ID resoponse', res.data.sessionId);
+    
     const stripe = await loadStripe(process.env.REACT_APP_STRIPE_KEY);
     stripe
       .redirectToCheckout({

@@ -1,19 +1,21 @@
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import TopNav from './components/TopNav';
-import ProtectedRoute from './components/ProtectedRoute'; 
 
 
-//Routes
-import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
+//App Components
 import Dashboard from './components/Dashboard'; 
 import DashboardSeller from './components/DashboardSeller';
-import NewHotel from './components/NewHotel';
-import StripeCallback from './components/StripeCallback'; 
 import EditHotel from './components/EditHotel';
+import Home from './components/Home';
+import Login from './components/Login';
+import NewHotel from './components/NewHotel';
+import ProtectedRoute from './components/ProtectedRoute'; 
+import Register from './components/Register';
+import StripeCallback from './components/StripeCallback'; 
+import StripeCancel from './components/StripeCancel';
+import StripeSuccess from './components/StripeSuccess';
+import TopNav from './components/TopNav';
 import ViewHotel from './components/ViewHotels';
 
 
@@ -46,6 +48,16 @@ function App() {
           exact 
           path='/stripe/callback' 
           component={StripeCallback}
+        />
+          <ProtectedRoute 
+          exact 
+          path='/stripe/cancel' 
+          component={StripeCancel}
+        />
+         <ProtectedRoute 
+          exact 
+          path='/stripe/success' 
+          component={StripeSuccess}
         />
         <ProtectedRoute 
           exact 
