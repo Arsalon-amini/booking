@@ -1,5 +1,6 @@
 import User from '../models/user'; 
 import Hotel from '../models/hotels';
+import Order from '../models/order';
 import Stripe from 'stripe';
 import queryString from 'query-string';
 
@@ -142,4 +143,40 @@ export const stripeSessionId = async (req, res) => {
     res.send({
         sessionId: session.id
     })
+}
+
+export const stripeSuccess = async (req, res) => {
+    try {
+    //get hotel from req.body
+    const { hotelId } = req.body;
+
+    //find currently logged in user
+    const user = await User.findById(req.user._id).exec();
+
+    //retrieve stripe session, based on session id saved in user db
+    const session = await stripe.checkout.sessions.retrieve(user.stripeSession.id);
+
+    //if session payment is paid, create order
+    if (session.payment_status === 'paid') {
+        //check if order already exists by querying orders collection
+        const orderExist = await Order.findOne({ 'session.id': session.id }).exec();
+        if (orderExist) {
+            res.json({ success: true }); //send true without creating a duplicate order
+        } else {
+            //create a new order and save in DB, send the response as true after 
+            const newOrder = await new Order({
+                hotel: hotelId,
+                session,
+                orderedBy: user._id
+            }).save();
+
+            await User.findByIdAndUpdate(user._id, {
+                $set: { stripeSession: {} },
+            });
+            res.json({ success: true });
+        }
+    }
+    } catch (err) {
+        console.log('Stripe Success Err', err);
+    }
 }
