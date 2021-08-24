@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { stripeSuccessRequest } from '../Actions/stripe';
+import { LoadingOutlined } from '@ant-design/icons'
 
 const StripeSuccess = ({ match, history }) => {
     const { auth: { token } } = useSelector((state) => ({ ...state }));
@@ -20,10 +21,9 @@ const StripeSuccess = ({ match, history }) => {
 
     return (
       <div className='container'>
-        <div className='col'>
+        <div className='d-flex justify-content-center p-5'>
                 <h2 className='text-center p-5'>
-                    Payment Success! You just got paid!
-                     {match.params.hotelId}
+                    <LoadingOutlined className="display-1 text-danger" />
                     </h2>
         </div>
       </div>

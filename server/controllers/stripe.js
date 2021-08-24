@@ -9,9 +9,11 @@ const stripe = Stripe(process.env.STRIPE_SECRET);
 export const createConnectAccount = async (req, res) => {
     // find user from DB
     const user = await User.findById(req.user._id).exec();
+
+    if (!user.stripeSession) return; 
     // console.log("user", user); 
+
     // if user doesn't have a stripe_account_id, create
-    
     if(!user.stripe_account_id){
         const account = await stripe.accounts.create({
             type: "express"
@@ -42,7 +44,6 @@ export const createConnectAccount = async (req, res) => {
     res.send(link);
     // update payment schedule 
 }
-
 
 const updateDelayDays = async (accountId) => {
     const account = await stripe.accounts.update(accountId, {

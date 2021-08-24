@@ -58,7 +58,7 @@ export const stripeSuccessRequest = async (token, hotelId) => await axios.post(
     { hotelId },
     {
         headers: {
-            Authorization: `Bearer: ${token}`
+            Authorization: `Bearer ${token}`
         },
     }
 );
