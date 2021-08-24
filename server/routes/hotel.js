@@ -8,7 +8,8 @@ import {
     sellerHotels,
     remove,
     read, 
-    update
+    update,
+    userHotelBookings
 } from '../controllers/hotel';
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.get('/seller-hotels', requireSignIn, sellerHotels);
 router.delete('/delete-hotel/:hotelId', requireSignIn, hotelOwner, remove);
 router.get("/hotel/:hotelId", read);
 router.put("/update-hotel/:hotelId", requireSignIn, formidable(), update);
+router.get('/user-hotel-bookings', requireSignIn, userHotelBookings);
 
 module.exports = router; 

@@ -48,3 +48,11 @@ export const updateHotel = async (token, data, hotelId) => {
         },
     });
 }
+
+export const userHotelBookings = async (token) => {
+    return await axios.get(`${process.env.REACT_APP_API}/user-hotel-bookings`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
