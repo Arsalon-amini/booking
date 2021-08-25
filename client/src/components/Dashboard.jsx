@@ -7,9 +7,7 @@ import { useEffect, useState } from "react";
 import BookingCard from "./BookingCard";
 
 const Dashboard = () => {
-  const {
-    auth: { token },
-  } = useSelector((state) => ({ ...state }));
+  const { auth: { token } } = useSelector((state) => ({ ...state }));
   const [booking, setBooking] = useState([]);
 
   useEffect(() => {
