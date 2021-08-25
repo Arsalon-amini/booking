@@ -4,10 +4,17 @@ const OrderModal = ({ session, orderedBy, setShowModal, showModal }) => {
   return (
     <Modal
       visible={showModal}
-      title='Order Payment Popup'
+      title='Order Details'
       onCancel={() => setShowModal(!showModal)}
     >
-      <pre>{JSON.stringify(session, null, 4)}</pre>
+      {/*  <p>Payment Intent: {session.payment_intent}</p> */}
+      <p>Payment Status: {session.payment_status}</p>
+      <p>
+        Amount Total: {session.currency.toUpperCase()}
+        ${session.amount_total / 100}
+      </p>
+      {/*       <p>Stripe Customer Id: {session.customer}</p> */}
+      <p>Customer {orderedBy.name}</p>
     </Modal>
   );
 };
